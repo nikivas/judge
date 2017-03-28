@@ -45,11 +45,8 @@ namespace chess_for_damn
         private void mainP()
         {
             Listener.Start();  
-
-            while ( true)
-            {
-                Client(Listener.AcceptTcpClient());
-            }
+            Client(Listener.AcceptTcpClient());
+            Listener.Stop();
             
 
         }
@@ -96,7 +93,7 @@ namespace chess_for_damn
 
             if (flagOnStep_Client == -1 || flagOnStep_Client != flagOnStep)
             {
-                Str = "BAD";
+                Str = "BAD\r\n\r\n";
                 byte_buffer = Encoding.ASCII.GetBytes(Str);
                 Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
                 Client.Close();
@@ -106,10 +103,10 @@ namespace chess_for_damn
 
 
 
-            
+            Client.GetStream().Flush();
             // Отправим его клиенту
             Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
-
+            Client.GetStream().Flush();
             Request = "";
             Buffer = new byte[1024];
             while ((Count = Client.GetStream().Read(Buffer, 0, Buffer.Length)) > 0)
@@ -120,7 +117,7 @@ namespace chess_for_damn
                     break;
                 }
             }
-
+            richTextBox1.Text += Request + "\n";
             draw(Request);
 
 
@@ -341,8 +338,7 @@ namespace chess_for_damn
             additiveString += getBUKVA(x1);
             additiveString += " " + (y1 + 1).ToString() + "\n";
 
-            richTextBox1.Text += additiveString;
-                
+            richTextBox1.Text += additiveString;                
         }
         
 
@@ -431,7 +427,7 @@ namespace chess_for_damn
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+            mainP();
         }
 
         private void parse(String s)
@@ -530,7 +526,7 @@ namespace chess_for_damn
 
         private void button3_Click(object sender, EventArgs e)
         {
-            mainP();
+            timer1.Enabled = true;
         }
     }
 }
