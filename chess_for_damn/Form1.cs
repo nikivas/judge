@@ -516,7 +516,7 @@ namespace chess_for_damn
                 }
             }
 
-            return buf;
+            return buf+"\r\n\r\n";
         }
 
         private void INIT()

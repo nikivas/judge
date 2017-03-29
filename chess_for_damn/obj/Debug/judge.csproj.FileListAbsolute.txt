@@ -7,3 +7,12 @@ C:\Users\Nikita\Desktop\учеба\Мичник\judge\main\visualizator\chess_fo
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\main\visualizator\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\main\visualizator\chess_for_damn\bin\Debug\chess_for_damn.exe
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\main\visualizator\chess_for_damn\bin\Debug\chess_for_damn.pdb
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.exe.config
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.exe
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.pdb
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.exe
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.pdb
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\judge.csprojResolveAssemblyReference.cache
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Form1.resources
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Properties.Resources.resources
+C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache
