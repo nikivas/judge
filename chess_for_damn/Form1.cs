@@ -53,10 +53,29 @@ namespace chess_for_damn
 
         public void Client(TcpClient Client)
         {
+            if (Client == null)
+                return;
             // INFO
+            try
+            {
+                string Str = SaveToString();
+                richTextBox1.Text += "OTRISOVKA\n";
+                Str = SaveToString();
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        richTextBox1.Text += " " + Str[i * 8 + j] + " ";
+                    }
+                    richTextBox1.Text += "\n";
+                }
 
-            // Необходимые заголовки: ответ сервера, тип и длина содержимого. После двух пустых строк - само содержимое
-            string Str = SaveToString();
+                richTextBox1.Text += "\n";
+                richTextBox1.Text += "\n";
+
+
+                // Необходимые заголовки: ответ сервера, тип и длина содержимого. После двух пустых строк - само содержимое
+                
             // Приведем строку к виду массива байт
             byte[] byte_buffer = Encoding.ASCII.GetBytes(Str);
             //END INFO
@@ -96,7 +115,10 @@ namespace chess_for_damn
                 Str = "BAD\r\n\r\n";
                 byte_buffer = Encoding.ASCII.GetBytes(Str);
                 Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
+                //Client.GetStream().Flush();
+                //Client.GetStream().Close();
                 Client.Close();
+                mainP();
                 return;
             }
 
@@ -117,16 +139,30 @@ namespace chess_for_damn
                     break;
                 }
             }
-            richTextBox1.Text += Request + "\n";
+
+            richTextBox1.Text += "AFTER POLU4ENIE\n";
+            for (int i =0; i < 8; i++)
+            {
+                for ( int j = 0; j < 8; j++)
+                {
+                    richTextBox1.Text += " " + Request[i * 8 + j] + " ";
+                }
+                richTextBox1.Text += "\n";
+            }
+
+            richTextBox1.Text += "\n";
+            richTextBox1.Text += "\n";
+            //richTextBox1.Text += Request + "\n";
             draw(Request);
-
-
-
-
 
             // Закроем соединение
             Client.Close();
             flagOnStep = flagOnStep == 1 ? 0 : 1;
+            }
+            catch (Exception e)
+            {
+                mainP();
+            }
         }
 
 
@@ -234,7 +270,7 @@ namespace chess_for_damn
                 }
             }
 
-           draw("0101010110101010010101010000000000000000202020200202020220202020");
+           //draw("0101010110101010010101010000000000020000200020200202020220202020");
             // MessageBox.Show(SaveToString());
 
             //Socket working begin
@@ -530,3 +566,15 @@ namespace chess_for_damn
         }
     }
 }
+
+/*
+ * 0101010010101010010101010000000000000000002000200202020220200020
+
+
+0101010110101010010101010000000000020000200020200202020220202020
+
+
+0101010110101010000101011000000000000000200020200202020220202020
+
+
+ */
