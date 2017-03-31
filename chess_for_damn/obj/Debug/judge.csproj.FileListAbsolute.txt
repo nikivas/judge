@@ -16,3 +16,12 @@ C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\D
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Form1.resources
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Properties.Resources.resources
 C:\Users\Nikita\Desktop\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache
+C:\CRACKME\juj\judge\chess_for_damn\bin\Debug\chess_for_damn.exe.config
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.exe
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.pdb
+C:\CRACKME\juj\judge\chess_for_damn\bin\Debug\chess_for_damn.exe
+C:\CRACKME\juj\judge\chess_for_damn\bin\Debug\chess_for_damn.pdb
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\judge.csprojResolveAssemblyReference.cache
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.Form1.resources
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.Properties.Resources.resources
+C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache

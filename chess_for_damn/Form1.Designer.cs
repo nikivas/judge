@@ -45,6 +45,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button3 = new System.Windows.Forms.Button();
+            this.Back_button = new System.Windows.Forms.Button();
+            this.Forvard_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.white)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.black)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.black_chess)).BeginInit();
@@ -128,9 +130,9 @@
             // richTextBox1
             // 
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox1.Location = new System.Drawing.Point(660, 50);
+            this.richTextBox1.Location = new System.Drawing.Point(660, 157);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(188, 467);
+            this.richTextBox1.Size = new System.Drawing.Size(188, 360);
             this.richTextBox1.TabIndex = 7;
             this.richTextBox1.Text = "";
             // 
@@ -199,11 +201,35 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // Back_button
+            // 
+            this.Back_button.Enabled = false;
+            this.Back_button.Location = new System.Drawing.Point(659, 87);
+            this.Back_button.Name = "Back_button";
+            this.Back_button.Size = new System.Drawing.Size(72, 48);
+            this.Back_button.TabIndex = 14;
+            this.Back_button.Text = "back";
+            this.Back_button.UseVisualStyleBackColor = true;
+            this.Back_button.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // Forvard_button
+            // 
+            this.Forvard_button.Enabled = false;
+            this.Forvard_button.Location = new System.Drawing.Point(770, 87);
+            this.Forvard_button.Name = "Forvard_button";
+            this.Forvard_button.Size = new System.Drawing.Size(78, 47);
+            this.Forvard_button.TabIndex = 15;
+            this.Forvard_button.Text = "forvard";
+            this.Forvard_button.UseVisualStyleBackColor = true;
+            this.Forvard_button.Click += new System.EventHandler(this.Forvard_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 605);
+            this.Controls.Add(this.Forvard_button);
+            this.Controls.Add(this.Back_button);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -218,9 +244,8 @@
             this.Controls.Add(this.black_chess);
             this.Controls.Add(this.black);
             this.Controls.Add(this.white);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
-            this.Text = "Шашки";
+            this.Text = "сервак";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.white)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.black)).EndInit();
@@ -251,6 +276,8 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Back_button;
+        private System.Windows.Forms.Button Forvard_button;
     }
 }
 

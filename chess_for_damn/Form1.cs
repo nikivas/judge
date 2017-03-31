@@ -29,8 +29,13 @@ namespace chess_for_damn
         int flag_for_timer = 1;
 
         Cell[,] buf = new Cell[8, 8]; // AI cup
+
+        List<string> history = new List<string>();
+        int history_idx = 0;
         
         int flagOnStep = 1;//
+
+        int flagOnStopServer = 0;
 
         //
         //Condition:
@@ -59,105 +64,91 @@ namespace chess_for_damn
             try
             {
                 string Str = SaveToString();
-                richTextBox1.Text += "OTRISOVKA\n";
+                
                 Str = SaveToString();
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        richTextBox1.Text += " " + Str[i * 8 + j] + " ";
-                    }
-                    richTextBox1.Text += "\n";
-                }
-
-                richTextBox1.Text += "\n";
-                richTextBox1.Text += "\n";
-
-
+   
                 // Необходимые заголовки: ответ сервера, тип и длина содержимого. После двух пустых строк - само содержимое
                 
-            // Приведем строку к виду массива байт
-            byte[] byte_buffer = Encoding.ASCII.GetBytes(Str);
-            //END INFO
+                // Приведем строку к виду массива байт
+                byte[] byte_buffer = Encoding.ASCII.GetBytes(Str);
+                //END INFO
 
 
 
-            string Request = "";
-            // Буфер для хранения принятых от клиента данных
-            byte[] Buffer = new byte[1024];
-            // Переменная для хранения количества байт, принятых от клиента
-            int Count;
-            // Читаем из потока клиента до тех пор, пока от него поступают данные
-            while ((Count = Client.GetStream().Read(Buffer, 0, Buffer.Length)) > 0)
-            {
-                // Преобразуем эти данные в строку и добавим ее к переменной Request
-                Request += Encoding.ASCII.GetString(Buffer, 0, Count);
-                // Запрос должен обрываться последовательностью \r\n\r\n
-                // Либо обрываем прием данных сами, если длина строки Request превышает 4 килобайта
+                string player_color = "";
+                // Буфер для хранения принятых от клиента данных
+                byte[] Buffer = new byte[1024];
+                // Переменная для хранения  байт
+                int Count;
+                // Читаем из потока 
+                while ((Count = Client.GetStream().Read(Buffer, 0, Buffer.Length)) > 0)
+                {
+                    // Преобразуем в строку
+                    player_color += Encoding.ASCII.GetString(Buffer, 0, Count);
+                    // Запрос должен обрываться последовательностью \r\n\r\n
+                    // Либо обрываем прием данных сами, если длина строки Request превышает 1 килобайт
                 
-                if (Request.IndexOf("\r\n\r\n") >= 0 || Request.Length > 4096)
-                {
-                    break;
+                    if (player_color.IndexOf("\r\n\r\n") >= 0 || player_color.Length > 1024)
+                    {
+                        break;
+                    }
                 }
-            }
 
 
 
-            int flagOnStep_Client = -1;
+                int flagOnStep_Client = -1;
 
-            if (Request == "black\r\n\r\n")
-                flagOnStep_Client = 0;
-            else if (Request == "white\r\n\r\n")
-                flagOnStep_Client = 1;
+                if (player_color == "black\r\n\r\n")
+                    flagOnStep_Client = 0;
+                else if (player_color == "white\r\n\r\n")
+                    flagOnStep_Client = 1;
 
-            if (flagOnStep_Client == -1 || flagOnStep_Client != flagOnStep)
-            {
-                Str = "BAD\r\n\r\n";
-                byte_buffer = Encoding.ASCII.GetBytes(Str);
+                if (flagOnStep_Client == -1 || flagOnStep_Client != flagOnStep)
+                {
+                    Str = "BAD\r\n\r\n";
+                    byte_buffer = Encoding.ASCII.GetBytes(Str);
+                    Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
+                    //Client.GetStream().Flush();
+                    //Client.GetStream().Close();
+                    Client.Close();
+                    mainP();
+                    return;
+                }
+
+
+
+
+                Client.GetStream().Flush();
+                // Отправим его клиенту
                 Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
-                //Client.GetStream().Flush();
-                //Client.GetStream().Close();
+                Client.GetStream().Flush();
+
+                String Request = ""; // читаем заново
+                Buffer = new byte[1024];
+                while ((Count = Client.GetStream().Read(Buffer, 0, Buffer.Length)) > 0)
+                {
+                    Request += Encoding.ASCII.GetString(Buffer, 0, Count);
+                    if (Request.IndexOf("\r\n\r\n") >= 0 || Request.Length > 4096)
+                    {
+                        break;
+                    }
+                }
+
+                if(Request.Length < 64)
+                {
+                    richTextBox1.Text += "Плохие данные получены от клиента : " + player_color;
+                    return;
+                }
+
+                history.Add(Request); // добавим в историю ходов
+                history_idx++;
+
+            
+                draw(Request);
+
+                // Закроем соединение
                 Client.Close();
-                mainP();
-                return;
-            }
-
-
-
-
-            Client.GetStream().Flush();
-            // Отправим его клиенту
-            Client.GetStream().Write(byte_buffer, 0, byte_buffer.Length);
-            Client.GetStream().Flush();
-            Request = "";
-            Buffer = new byte[1024];
-            while ((Count = Client.GetStream().Read(Buffer, 0, Buffer.Length)) > 0)
-            {
-                Request += Encoding.ASCII.GetString(Buffer, 0, Count);
-                if (Request.IndexOf("\r\n\r\n") >= 0 || Request.Length > 4096)
-                {
-                    break;
-                }
-            }
-
-            richTextBox1.Text += "AFTER POLU4ENIE\n";
-            for (int i =0; i < 8; i++)
-            {
-                for ( int j = 0; j < 8; j++)
-                {
-                    richTextBox1.Text += " " + Request[i * 8 + j] + " ";
-                }
-                richTextBox1.Text += "\n";
-            }
-
-            richTextBox1.Text += "\n";
-            richTextBox1.Text += "\n";
-            //richTextBox1.Text += Request + "\n";
-            draw(Request);
-
-            // Закроем соединение
-            Client.Close();
-            flagOnStep = flagOnStep == 1 ? 0 : 1;
+                flagOnStep = flagOnStep == 1 ? 0 : 1;
             }
             catch (Exception e)
             {
@@ -270,9 +261,9 @@ namespace chess_for_damn
                 }
             }
 
-           //draw("0101010110101010010101010000000000020000200020200202020220202020");
+            //draw("0101010110101010010101010000000000020000200020200202020220202020");
             // MessageBox.Show(SaveToString());
-
+            history.Add(SaveToString());
             //Socket working begin
             //
             // получаем адреса для запуска сокета
@@ -300,25 +291,37 @@ namespace chess_for_damn
             {
                 for(int j = 0; j < 8; j++)
                 {
-                    if (pole[i, j].Condition == 1)
+                    if (pole[i, j].mypic.Image == white_chess.Image || pole[i, j].mypic.Image == white_queen.Image)
                         black_win = 0;
 
-                    if (pole[i, j].Condition == 2)
+                    if (pole[i, j].mypic.Image == black_chess.Image || pole[i, j].mypic.Image == black_queen.Image )
                         white_win = 0;
                 }
             }
 
             if (white_win == 1)
+            {
+                flagOnStopServer = 1;
                 Win("White");
+                
+
+            }
             if (black_win == 1)
+            {
+                flagOnStopServer = 1;
                 Win("Black");
+            }
+                
         }
 
         private void Win(string who)
         {
             //Clear();
-            MessageBox.Show(who+" IS WIN!!!");              // Вывод сообщения о победе
+            MessageBox.Show("WIN!!!");              // Вывод сообщения о победе
             label1.Text = "NICE JOB, YOU MAY EXIT";         // И еще мы меняем лейблик
+
+            Back_button.Enabled = true;
+            Forvard_button.Enabled = true;
         }
 
 
@@ -463,7 +466,16 @@ namespace chess_for_damn
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            mainP();
+            if (flagOnStopServer == 0)
+            {
+                mainP();
+                checkToWin();
+            }
+            else
+            {
+                
+            }
+            
         }
 
         private void parse(String s)
@@ -563,6 +575,41 @@ namespace chess_for_damn
         private void button3_Click(object sender, EventArgs e)
         {
             timer1.Enabled = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if(history_idx < 0 || history.Count < history_idx)
+            {
+                Back_button.Enabled = false;
+            }
+            else
+            {
+                Forvard_button.Enabled = true;
+                draw(history[--history_idx]);
+                if(history_idx == 0)
+                {
+                    Back_button.Enabled = false;
+                }
+
+            }
+        }
+
+        private void Forvard_button_Click(object sender, EventArgs e)
+        {
+            if (history_idx < 0 || history.Count-1 <= history_idx)
+            {
+                Forvard_button.Enabled = false;
+            }
+            else
+            {
+                Back_button.Enabled = true;
+                draw(history[++history_idx]);
+                if (history.Count-1 == history_idx)
+                {
+                    Forvard_button.Enabled = false;
+                }
+            }
         }
     }
 }
