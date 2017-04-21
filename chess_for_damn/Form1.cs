@@ -17,8 +17,8 @@ namespace chess_for_damn
     {
 
         static int port = 8005;
-        
 
+        public static string defaultBoard = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
         TcpListener Listener;
        
 
@@ -50,7 +50,7 @@ namespace chess_for_damn
         private void mainP()
         {
             Listener.Start();  
-            Client(Listener.AcceptTcpClient());
+            Client( Listener.AcceptTcpClient());
             Listener.Stop();
             
 
@@ -143,8 +143,7 @@ namespace chess_for_damn
                 history.Add(Request); // добавим в историю ходов
                 history_idx++;
 
-            
-                draw(Request);
+                draw_with_check(Request, (flagOnStep == 1 ? 1 : 2 ) ); // (flagOnStep+1)%2+1 ?
 
                 // Закроем соединение
                 Client.Close();
@@ -260,7 +259,7 @@ namespace chess_for_damn
                                                                 // 2 - Black          
                 }
             }
-
+            defaultBoard = SaveToString();
             //draw("0101010110101010010101010000000000020000200020200202020220202020");
             // MessageBox.Show(SaveToString());
             history.Add(SaveToString());
@@ -311,7 +310,14 @@ namespace chess_for_damn
                 flagOnStopServer = 1;
                 Win("Black");
             }
-                
+
+            List<string> pos_moves = new Board(SaveToString()).getPossibleBoards_s(flagOnStep == 1? 1 : 2);
+            if (pos_moves.Count == 0)
+            {
+                flagOnStopServer = 1;
+                MessageBox.Show("Draw");
+            }
+            
         }
 
         private void Win(string who)
@@ -470,6 +476,8 @@ namespace chess_for_damn
             {
                 mainP();
                 checkToWin();
+                Board tmp = new Board(SaveToString());
+                label1.Text = "Белые - " + (12 - tmp.black_checkers - tmp.black_queens) + " : " + (12 - tmp.white_checkers - tmp.white_queens) + " - Черные"; 
             }
             else
             {
@@ -480,6 +488,24 @@ namespace chess_for_damn
 
         private void parse(String s)
         {
+
+        }
+
+        private void draw_with_check(string board, int player)
+        {
+            string cur_board = this.SaveToString();
+            Board brd = new Board(cur_board);
+            List<string> pos_boards = brd.getPossibleBoards_s(player);
+            
+            for(int i =0; i < pos_boards.Count; i++)
+            {
+                if (pos_boards[i] == board)
+                {
+                    draw(board);
+                    return;
+                }
+            }
+            MessageBox.Show("неправильный ход"+(player == 1 ? " белых" : " черных"));
 
         }
 
@@ -574,6 +600,7 @@ namespace chess_for_damn
 
         private void button3_Click(object sender, EventArgs e)
         {
+            draw(defaultBoard);
             timer1.Enabled = true;
         }
 

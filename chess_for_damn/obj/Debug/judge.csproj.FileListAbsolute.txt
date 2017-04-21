@@ -25,3 +25,12 @@ C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\judge.csprojResolveAssemblyReferen
 C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.Form1.resources
 C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\chess_for_damn.Properties.Resources.resources
 C:\CRACKME\juj\judge\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache
+C:\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.exe.config
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.exe
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.pdb
+C:\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.exe
+C:\учеба\Мичник\judge\judge\chess_for_damn\bin\Debug\chess_for_damn.pdb
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\judge.csprojResolveAssemblyReference.cache
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Form1.resources
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\chess_for_damn.Properties.Resources.resources
+C:\учеба\Мичник\judge\judge\chess_for_damn\obj\Debug\judge.csproj.GenerateResource.Cache
