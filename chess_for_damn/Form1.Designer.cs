@@ -47,6 +47,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.Back_button = new System.Windows.Forms.Button();
             this.Forvard_button = new System.Windows.Forms.Button();
+            this.score_label = new System.Windows.Forms.Label();
+            this.just_a_label = new System.Windows.Forms.Label();
+            this.team_names = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.white)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.black)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.black_chess)).BeginInit();
@@ -160,7 +163,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(710, 20);
+            this.label1.Location = new System.Drawing.Point(710, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 16);
             this.label1.TabIndex = 10;
@@ -188,7 +191,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 2500;
+            this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button3
@@ -204,9 +207,9 @@
             // Back_button
             // 
             this.Back_button.Enabled = false;
-            this.Back_button.Location = new System.Drawing.Point(659, 87);
+            this.Back_button.Location = new System.Drawing.Point(660, 120);
             this.Back_button.Name = "Back_button";
-            this.Back_button.Size = new System.Drawing.Size(72, 48);
+            this.Back_button.Size = new System.Drawing.Size(72, 31);
             this.Back_button.TabIndex = 14;
             this.Back_button.Text = "back";
             this.Back_button.UseVisualStyleBackColor = true;
@@ -215,19 +218,51 @@
             // Forvard_button
             // 
             this.Forvard_button.Enabled = false;
-            this.Forvard_button.Location = new System.Drawing.Point(770, 87);
+            this.Forvard_button.Location = new System.Drawing.Point(770, 120);
             this.Forvard_button.Name = "Forvard_button";
-            this.Forvard_button.Size = new System.Drawing.Size(78, 47);
+            this.Forvard_button.Size = new System.Drawing.Size(78, 31);
             this.Forvard_button.TabIndex = 15;
             this.Forvard_button.Text = "forvard";
             this.Forvard_button.UseVisualStyleBackColor = true;
             this.Forvard_button.Click += new System.EventHandler(this.Forvard_button_Click);
+            // 
+            // score_label
+            // 
+            this.score_label.AutoSize = true;
+            this.score_label.Location = new System.Drawing.Point(739, 104);
+            this.score_label.Name = "score_label";
+            this.score_label.Size = new System.Drawing.Size(25, 13);
+            this.score_label.TabIndex = 16;
+            this.score_label.Text = "___";
+            // 
+            // just_a_label
+            // 
+            this.just_a_label.AutoSize = true;
+            this.just_a_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.just_a_label.Location = new System.Drawing.Point(682, 50);
+            this.just_a_label.Name = "just_a_label";
+            this.just_a_label.Size = new System.Drawing.Size(166, 16);
+            this.just_a_label.TabIndex = 17;
+            this.just_a_label.Text = "Общий Счет по партиям:";
+            // 
+            // team_names
+            // 
+            this.team_names.AutoSize = true;
+            this.team_names.Location = new System.Drawing.Point(715, 81);
+            this.team_names.Name = "team_names";
+            this.team_names.Size = new System.Drawing.Size(73, 13);
+            this.team_names.TabIndex = 18;
+            this.team_names.Text = "___________";
+            this.team_names.Click += new System.EventHandler(this.team_names_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 605);
+            this.Controls.Add(this.team_names);
+            this.Controls.Add(this.just_a_label);
+            this.Controls.Add(this.score_label);
             this.Controls.Add(this.Forvard_button);
             this.Controls.Add(this.Back_button);
             this.Controls.Add(this.button3);
@@ -278,6 +313,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button Back_button;
         private System.Windows.Forms.Button Forvard_button;
+        private System.Windows.Forms.Label score_label;
+        private System.Windows.Forms.Label just_a_label;
+        private System.Windows.Forms.Label team_names;
     }
 }
 

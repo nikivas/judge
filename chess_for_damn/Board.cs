@@ -620,7 +620,8 @@ namespace chess_for_damn
                             canMove(board[i, j], 1, new List<Cell>(), curCondition);
 
                             List<Cell> bufListOfMoves = new List<Cell>(); // буферные вычисления
-                            for (int z = 0; z < move_queve.Count; z++) { bufListOfMoves.Add(move_queve[z]); }
+                            List<string> Steps = new List<string>();
+                            for (int z = 0; z < move_queve.Count; z++) { bufListOfMoves.Add(move_queve[z]); Steps.Add(getStep(otkuda_x, otkuda_y, move_queve[z].x, move_queve[z].y)); }
 
                             for (int z = 0; z < bufListOfMoves.Count; z++) // проходимся по возможным ходам и делаем каждый из них
                             {
@@ -629,12 +630,9 @@ namespace chess_for_damn
                                 draw(current);
                                 canMove(board[i, j], 1, new List<Cell>(), curCondition);
                                 MoveIt(bufListOfMoves[z]);
-                                string s = getCurrentBoard();
-                                if (current == s)
-                                {
-                                    int jz = 10 - 2;
-                                }
-                                possibleBoards.Add(getCurrentBoard());
+                                string PBoard = getCurrentBoard();
+                                PBoard += " "+Steps[z];
+                                possibleBoards.Add(PBoard);
                             }
                         }
 
@@ -649,7 +647,9 @@ namespace chess_for_damn
                             //canMove(board[i, j], 1, new List<Cell>(), curCondition);
 
                             List<Cell> bufListOfMoves = new List<Cell>(); // буферные вычисления
-                            for (int z = 0; z < move_queve.Count; z++) { bufListOfMoves.Add(move_queve[z]); }
+                            List<string> Steps = new List<string>();
+
+                            for (int z = 0; z < move_queve.Count; z++) { bufListOfMoves.Add(move_queve[z]); Steps.Add(getStep(otkuda_x, otkuda_y, move_queve[z].x, move_queve[z].y)); }
 
                             for (int z = 0; z < bufListOfMoves.Count; z++) // проходимся по возможным ходам и делаем каждый из них
                             {
@@ -658,12 +658,9 @@ namespace chess_for_damn
                                 draw(current);
                                 canMoveQueen(board[i, j], 1, new List<Cell>(), curCondition);
                                 MoveIt(bufListOfMoves[z]);
-                                string s = getCurrentBoard();
-                                if (current == s)
-                                {
-                                    int jz = 10 - 2;
-                                }
-                                possibleBoards.Add(getCurrentBoard());
+                                string PBoard = getCurrentBoard();
+                                PBoard += " " + Steps[z];
+                                possibleBoards.Add(PBoard);
                             }
                         }
 
@@ -702,5 +699,47 @@ namespace chess_for_damn
             }
         }
 
+        private string getBUKVA(int n)
+        {
+            //switch для букв по номеру
+            string Ans = "";
+            switch (n)
+            {
+                case 0:
+                    Ans += "a";
+                    break;
+                case 1:
+                    Ans += "b";
+                    break;
+                case 2:
+                    Ans += "c";
+                    break;
+                case 3:
+                    Ans += "d";
+                    break;
+                case 4:
+                    Ans += "e";
+                    break;
+                case 5:
+                    Ans += "f";
+                    break;
+                case 6:
+                    Ans += "g";
+                    break;
+                case 7:
+                    Ans += "h";
+                    break;
+            }
+            return Ans;
+
+        }
+        private string getStep(int x0, int y0, int x1, int y1)
+        {
+            string ans = "";
+            ans += getBUKVA(x0) + (y0+1).ToString();
+            ans += " - ";
+            ans += getBUKVA(x1) + (y1+1).ToString();
+            return ans;
+        }
     }
 }

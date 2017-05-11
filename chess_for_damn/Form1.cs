@@ -37,6 +37,11 @@ namespace chess_for_damn
 
         int flagOnStopServer = 0;
 
+        string white_player_name = "";
+        string black_player_name = "";
+
+
+
         //
         //Condition:
         //1 - white
@@ -44,7 +49,7 @@ namespace chess_for_damn
 
 
 
-        
+
 
 
         private void mainP()
@@ -98,10 +103,23 @@ namespace chess_for_damn
 
                 int flagOnStep_Client = -1;
 
-                if (player_color == "black\r\n\r\n")
+                if (player_color.Substring(0,5) == "black")
+                {
                     flagOnStep_Client = 0;
-                else if (player_color == "white\r\n\r\n")
+                    try { 
+                    black_player_name = player_color.Substring(7, player_color.Length - 11);
+                    }
+                    catch(Exception e) { }
+                }
+                    
+                else if (player_color.Substring(0, 5) == "white")
+                {
                     flagOnStep_Client = 1;
+                    try { 
+                    white_player_name = player_color.Substring(6,player_color.Length-11);
+                    }
+                    catch (Exception e) { }
+                }
 
                 if (flagOnStep_Client == -1 || flagOnStep_Client != flagOnStep)
                 {
@@ -270,7 +288,8 @@ namespace chess_for_damn
             Listener = new TcpListener(IPAddress.Any,port);
             //mainP();
 
-
+            string s1= C_File.read_current_score("first","second");
+            C_File.add_new_score("first","second",2,2);
         }
 
 
@@ -302,13 +321,13 @@ namespace chess_for_damn
             {
                 flagOnStopServer = 1;
                 Win("White");
-                
-
+                return;
             }
             if (black_win == 1)
             {
                 flagOnStopServer = 1;
                 Win("Black");
+                return;
             }
 
             List<string> pos_moves = new Board(SaveToString()).getPossibleBoards_s(flagOnStep == 1? 1 : 2);
@@ -316,6 +335,17 @@ namespace chess_for_damn
             {
                 flagOnStopServer = 1;
                 MessageBox.Show("Draw");
+                Back_button.Enabled = true;
+                Forvard_button.Enabled = true;
+
+                try { 
+                    C_File.add_new_score(white_player_name, black_player_name, 1, 1);
+                }catch(Exception e)
+                {
+                    MessageBox.Show("Ошибка работы с файлом!");
+                }
+
+                return;
             }
             
         }
@@ -323,8 +353,23 @@ namespace chess_for_damn
         private void Win(string who)
         {
             //Clear();
-            MessageBox.Show("WIN!!!");              // Вывод сообщения о победе
+            MessageBox.Show(who+" WON!!!");              // Вывод сообщения о победе
             label1.Text = "NICE JOB, YOU MAY EXIT";         // И еще мы меняем лейблик
+
+            try { 
+            if(who == "White")
+            {
+                C_File.add_new_score(white_player_name, black_player_name, 2, 0);
+            }
+            else
+            {
+                C_File.add_new_score(white_player_name, black_player_name, 0, 2);
+            }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка работы с файлом!");
+            }
 
             Back_button.Enabled = true;
             Forvard_button.Enabled = true;
@@ -389,50 +434,11 @@ namespace chess_for_damn
 
         private void ClearLongItems(Cell trs)
         {
-            //
-            //очистка delItems ячеек, соответствующих ячейке в которую мы походили
-            //
-            /*
-            int len = delItems.Count;
-
-            for(int i = 0; i < len; i++)
-            {
-                if(delItems[i].greenItem.mypic.Name == trs.mypic.Name)
-                {
-                    Clear(delItems[i].deletedItems);
-                }
-            }*/
         }
 
         private void ClearDelItems()
         {
-            // очистка для delItems
-            /*
-            for (int i = 0; i < delItems.Count; i++)
-            {
-                delItems.Remove(delItems[0]);
-            }
-        }
-
-        private void Clear()
-        {
-            //
-            //просто чистим массив move_queve
-            //
-            int len = move_queve.Count;
-
-            for (int i = 0; i < len; i++)
-            {
-
-                int y = move_queve[0].y;
-                int x = move_queve[0].x;
-
-                pole[y,x].mypic.Image = black.Image;
-                pole[y, x].Condition = 0;
-
-                move_queve.Remove(move_queve[0]);
-            }
-            */
+ 
         }
 
         private void Clear(List<Cell> trs)
@@ -496,12 +502,13 @@ namespace chess_for_damn
             string cur_board = this.SaveToString();
             Board brd = new Board(cur_board);
             List<string> pos_boards = brd.getPossibleBoards_s(player);
+            pos_boards.Add(cur_board);
             
             for(int i =0; i < pos_boards.Count; i++)
             {
-                if (pos_boards[i] == board)
+                if (pos_boards[i].Substring(0,64) == board.Substring(0,64) )
                 {
-                    draw(board);
+                    draw(pos_boards[i]);
                     return;
                 }
             }
@@ -511,6 +518,16 @@ namespace chess_for_damn
 
         private void draw(String s)
         {
+
+            try
+            {
+                team_names.Text = white_player_name + " - " + black_player_name;
+                score_label.Text = C_File.read_current_score(white_player_name, black_player_name);
+            }catch(Exception e)
+            {
+                MessageBox.Show("ошибка работы с файлом!");
+            }
+
             int k = 0;
              for (int i =0; i < 8; i++)
             {
@@ -557,6 +574,10 @@ namespace chess_for_damn
                 }
                 
             }
+
+            richTextBox1.Text += s.Substring(k);
+
+
         }
 
         private string SaveToString()
@@ -638,11 +659,18 @@ namespace chess_for_damn
                 }
             }
         }
+
+        
+
+        private void team_names_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
 /*
- * 0101010010101010010101010000000000000000002000200202020220200020
+0101010010101010010101010000000000000000002000200202020220200020
 
 
 0101010110101010010101010000000000020000200020200202020220202020
